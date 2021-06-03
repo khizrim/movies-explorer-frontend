@@ -34,6 +34,10 @@
   line-height: 13px;
 }
 
+.movies-card__cover-image {
+  width: 100%;
+}
+
 .movies-card__save-button {
   width: 30px;
   height: 30px;
