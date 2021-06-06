@@ -10,16 +10,14 @@ import './AboutMe.css';
 
 function AboutMe() {
   return (
-    <Section
-      name="about-me"
-      title="Студент"
-      isDarker={false}
-    >
+    <Section name="about-me" title="Студент" isDarker={false}>
       <>
         <div className="about-me__content">
           <div className="about-me__profile">
             <h2 className="about-me__name">Хизри</h2>
-            <p className="about-me__description">Фронтенд-разработчик, 28 лет</p>
+            <p className="about-me__description">
+              Фронтенд-разработчик, 28 лет
+            </p>
             <p className="about-me__text">
               Живу и работаю в Махачкале. С 2012 года занимался дизайном и
               маркетингом в компании «05.ru». Недавно начал кодить и ушёл в

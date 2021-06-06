@@ -1,16 +1,12 @@
 import React from 'react';
 
-import './AboutProject.css';
-
 import Section from '../Section/Section';
+
+import './AboutProject.css';
 
 function AboutProject() {
   return (
-    <Section
-      name="about-project"
-      title="О проекте"
-      isDarker={false}
-    >
+    <Section name="about-project" title="О проекте" isDarker={false}>
       <>
         <div className="about-project__content">
           <div className="about-project__item">

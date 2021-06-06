@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin: 20px auto 0;
+  margin: 20px 0 0;
   width: calc(100% - 40px * 2);
   border-radius: 10px;
   background: #f5f5f5;
@@ -35,7 +35,7 @@
 
 @media screen and (max-width: 619px) {
   .promo {
-    margin: 10px auto 0;
+    margin: 10px 0 0;
     width: calc(100% - 14px * 2);
   }
 

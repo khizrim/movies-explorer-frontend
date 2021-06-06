@@ -1,5 +1,5 @@
 .about-project {
-  margin: 0 auto 99px;
+  margin: 0 0 99px;
 }
 
 .about-project__content {
@@ -98,7 +98,7 @@
 
 @media only screen and (max-width: 989px) {
   .about-project {
-    margin: 0 auto 90px;
+    margin: 0 0 90px;
   }
 
   .about-project__content {
@@ -128,7 +128,7 @@
 
 @media screen and (max-width: 619px) {
   .about-project {
-    margin: 0 auto 70px;
+    margin: 0 0 70px;
   }
 
   .about-project__content {

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import Section from '../Section/Section';
 
 import './Techs.css';
@@ -8,7 +9,6 @@ function Techs() {
     <Section
       name="techs"
       title="Технологии"
-      isDarker
     >
       <div className="techs__content">
         <h3 className="techs__title">7 технологий</h3>

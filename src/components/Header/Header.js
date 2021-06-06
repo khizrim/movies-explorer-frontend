@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import logo from '../../images/logo.svg';
+import Navigation from '../Navigation/Navigation';
 
 import './Header.css';
-import Menu from '../Menu/Menu';
 
 function Header(props) {
   const { isLoggedIn } = props;
@@ -24,7 +24,7 @@ function Header(props) {
           alt="Логотип Movies Explorer"
         />
       </Link>
-      <Menu isLoggedIn={isLoggedIn} />
+      <Navigation isLoggedIn={isLoggedIn} />
     </header>
   );
 }

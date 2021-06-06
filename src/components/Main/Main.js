@@ -10,9 +10,7 @@ import Footer from '../Footer/Footer';
 function Main() {
   return (
     <>
-      <Header
-        isLoggedIn={false}
-      />
+      <Header isLoggedIn={false} />
       <Promo />
       <AboutProject />
       <Techs />

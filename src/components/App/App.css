@@ -1,30 +1,19 @@
-.page {
+.app {
   min-width: 320px;
-  height: 100%;
+  min-height: 100vh;
   background-color: #fafafa;
 }
 
-.page_no-scroll {
-  overflow: hidden;
-  height: 100vh;
-}
-
-.page__container {
+.app__container {
   display: flex;
   align-items: center;
   flex-direction: column;
+  box-sizing: border-box;
   margin: auto;
-  min-width: 320px;
-  min-height: 100vh;
   max-width: 1280px;
   height: 100%;
   color: #000;
   font-family: 'Inter', Arial, sans-serif;
 
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
 }

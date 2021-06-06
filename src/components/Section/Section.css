@@ -3,8 +3,7 @@
   align-items: center;
   flex-direction: column;
   box-sizing: border-box;
-  padding: 0 70px;
-  width: 100%;
+  width: calc(100% - 70px * 2);
 }
 
 .section_darker {
@@ -31,7 +30,7 @@
 
 @media only screen and (max-width: 989px) {
   .section {
-    padding: 0 50px;
+    width: calc(100% - 50px * 2);
   }
 
   .section__title {
@@ -42,7 +41,7 @@
 
 @media only screen and (max-width: 619px) {
   .section {
-    padding: 0 18px;
+    width: calc(100% - 18px * 2);
   }
 
   .section__title {
