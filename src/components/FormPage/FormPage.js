@@ -14,6 +14,8 @@ function FormPage(props) {
     captionLinkText,
     captionLinkUrl,
     children,
+    isValid,
+    validate,
   } = props;
 
   FormPage.propTypes = {
@@ -23,6 +25,8 @@ function FormPage(props) {
     captionLinkText: PropTypes.string.isRequired,
     captionLinkUrl: PropTypes.string.isRequired,
     children: PropTypes.element.isRequired,
+    isValid: PropTypes.bool.isRequired,
+    validate: PropTypes.func.isRequired,
   };
 
   return (
@@ -35,10 +39,23 @@ function FormPage(props) {
         />
       </Link>
       <h1 className="form-page__title">{title}</h1>
-      <form className="form-page__form" id="form-page" autoComplete="on">
+      <form
+        className="form-page__form"
+        id="form-page"
+        autoComplete="on"
+        onChange={validate}
+        noValidate
+      >
         {children}
       </form>
-      <button form="form-page" className="form-page__button" type="submit">
+      <button
+        form="form-page"
+        className={`form-page__button ${
+          !isValid ? 'form-page__button_disabled' : ''
+        }`}
+        type="submit"
+        disabled={!isValid}
+      >
         {buttonText}
       </button>
       <div className="form-page__caption">
