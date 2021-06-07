@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 74px;
+  width: calc(100% - 70px * 2);
+}
+
+.header__logo-link {
+  line-height: 0;
+}
+
+@media screen and (max-width: 989px) {
+  .header {
+    width: calc(100% - 30px * 2);
+  }
+}
+
+@media screen and (max-width: 619px) {
+  .header {
+    width: calc(100% - 14px * 2);
+  }
+}
