@@ -46,8 +46,10 @@ function Register(props) {
                 errors.name ? 'form-page__input_type_error' : ''
               }`}
               placeholder="Жак-Ив Кусто"
+              pattern="^[A-Za-zА-Яа-яЁё /s -]+$"
               autoComplete="name"
               minLength="2"
+              maxLength="30"
               required
             />
             {errors.name && (

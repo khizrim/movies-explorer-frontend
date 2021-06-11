@@ -88,7 +88,7 @@ function App() {
   };
 
   const handleUserUpdate = async (name, email) => {
-    const user = mainApi.updateUser({
+    const user = await mainApi.updateUser({
       name,
       email,
     });

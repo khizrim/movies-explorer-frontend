@@ -27,8 +27,6 @@ function Profile(props) {
     formValidity,
   } = useForm();
 
-  const { name, email } = values;
-
   const currentUser = React.useContext(CurrentUserContext);
 
   React.useEffect(() => {
@@ -37,14 +35,14 @@ function Profile(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    onUserUpdate(name, email, reset);
+    onUserUpdate(values.name, values.email, reset);
   }
 
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />
       <section className="profile">
-        <h1 className="profile__title">{`Привет, ${name}!`}</h1>
+        <h1 className="profile__title">{`Привет, ${currentUser.name}!`}</h1>
         <form
           className="profile__form"
           id="profile"
@@ -57,12 +55,14 @@ function Profile(props) {
               id="user-name"
               name="name"
               type="text"
-              value={name || ''}
+              value={values.name || ''}
               className={`profile__input ${
                 errors.name ? 'profile__input_type_error' : ''
               }`}
               autoComplete="off"
+              pattern="^[A-Za-zА-Яа-яЁё /s -]+$"
               minLength="2"
+              maxLength="30"
               onChange={handleChange}
               required
             />
@@ -77,7 +77,7 @@ function Profile(props) {
               id="user-email"
               name="email"
               type="email"
-              value={email || ''}
+              value={values.email || ''}
               className={`profile__input ${
                 errors.email ? 'profile__input_type_error' : ''
               }`}
