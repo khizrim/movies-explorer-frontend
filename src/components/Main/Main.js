@@ -17,7 +17,9 @@ function Main(props) {
 
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} />
+      <Header
+        isLoggedIn={isLoggedIn}
+      />
       <Promo />
       <AboutProject />
       <Techs />

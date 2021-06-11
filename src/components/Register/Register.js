@@ -54,7 +54,6 @@ function Register(props) {
               <span className="form-page__input-error">{errors.name}</span>
             )}
           </label>
-
           <label htmlFor="email" className="form-page__label">
             E-mail
             <input
@@ -75,7 +74,6 @@ function Register(props) {
               <span className="form-page__input-error">{errors.email}</span>
             )}
           </label>
-
           <label htmlFor="password" className="form-page__label">
             Пароль
             <input

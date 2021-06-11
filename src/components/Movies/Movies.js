@@ -26,7 +26,9 @@ function Movies(props) {
 
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} />
+      <Header
+        isLoggedIn={isLoggedIn}
+      />
       <SearchForm />
       <MoviesCardList
         isLoading={isLoading}

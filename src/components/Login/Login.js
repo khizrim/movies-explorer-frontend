@@ -55,7 +55,6 @@ function Login(props) {
               <span className="form-page__input-error">{errors.email}</span>
             )}
           </label>
-
           <label htmlFor="password" className="form-page__label">
             Пароль
             <input

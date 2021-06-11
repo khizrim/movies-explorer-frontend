@@ -2,6 +2,9 @@ import React from 'react';
 
 import { Route, Switch, useHistory } from 'react-router';
 
+import mainApi from '../../utils/MainApi';
+import moviesApi from '../../utils/MoviesApi';
+
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
 import Main from '../Main/Main';
@@ -13,18 +16,16 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import NotFound from '../NotFound/NotFound';
 
-import mainApi from '../../utils/MainApi';
-import moviesApi from '../../utils/MoviesApi';
-
 import './App.css';
 
 function App() {
   const history = useHistory();
 
-  const [currentUser, setCurrentUser] = React.useState({});
   const [isChecking, setIsChecking] = React.useState(true);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+
+  const [currentUser, setCurrentUser] = React.useState({});
   const [moviesList, setMoviesList] = React.useState([]);
 
   function getInitialMovies() {
@@ -42,37 +43,11 @@ function App() {
           setMoviesList(res);
         }
       } catch (err) {
-        // eslint-disable-next-line no-console
-        console.log(err);
+        setMoviesList([]);
       } finally {
         setIsLoading(false);
       }
     })();
-  }
-
-  function handleSignUp(name, email, password) {
-    mainApi.signUpUser({ name, email, password });
-  }
-
-  function handleSignIn(email, password) {
-    mainApi.signInUser({ email, password }).then((res) => {
-      setCurrentUser(res.data);
-      setIsLoggedIn(true);
-      history.push('/movies');
-    });
-  }
-
-  function handleUpdateUser(name, email) {
-    mainApi.updateUser({ name, email }).then((res) => {
-      setCurrentUser(res.data);
-    });
-  }
-
-  function handleSignOut() {
-    mainApi.signOutUser().then(() => {
-      setIsLoggedIn(false);
-      history.push('/');
-    });
   }
 
   React.useEffect(() => {
@@ -92,44 +67,85 @@ function App() {
     })();
   }, []);
 
+  const handleSignUp = async (name, email, password) => {
+    await mainApi.signUpUser({
+      name,
+      email,
+      password,
+    });
+  };
+
+  const handleSignIn = async (email, password) => {
+    const user = await mainApi.signInUser({
+      email,
+      password,
+    });
+
+    setCurrentUser(user.data);
+    setIsLoggedIn(true);
+
+    history.push('/movies');
+  };
+
+  const handleUserUpdate = async (name, email) => {
+    const user = mainApi.updateUser({
+      name,
+      email,
+    });
+
+    setCurrentUser(user.data);
+  };
+
+  const handleSignOut = async () => {
+    await mainApi.signOutUser();
+    setIsLoggedIn(false);
+    history.push('/');
+  };
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="app">
         <div className="app__container">
           <Switch>
             <Route exact path="/">
-              <Main isLoggedIn={isLoggedIn} />
+              <Main
+                isLoggedIn={isLoggedIn}
+              />
             </Route>
             <Route exact path="/signup">
-              <Register onSubmit={handleSignUp} />
+              <Register
+                onSubmit={handleSignUp}
+              />
             </Route>
             <Route exact path="/signin">
-              <Login onSubmit={handleSignIn} />
+              <Login
+                onSubmit={handleSignIn}
+              />
             </Route>
             <ProtectedRoute
               path="/movies"
+              component={Movies}
               isChecking={isChecking}
               isLoggedIn={isLoggedIn}
-              component={Movies}
               isLoading={isLoading}
               movies={moviesList}
               getMovies={getInitialMovies}
             />
             <ProtectedRoute
               path="/saved-movies"
+              component={SavedMovies}
               isChecking={isChecking}
               isLoggedIn={isLoggedIn}
-              component={SavedMovies}
               isLoading={isLoading}
               movies={moviesList}
               getMovies={getInitialMovies}
             />
             <ProtectedRoute
               path="/profile"
+              component={Profile}
               isChecking={isChecking}
               isLoggedIn={isLoggedIn}
-              component={Profile}
-              onUserUpdate={handleUpdateUser}
+              onUserUpdate={handleUserUpdate}
               onSignOut={handleSignOut}
             />
             <Route path="*">
