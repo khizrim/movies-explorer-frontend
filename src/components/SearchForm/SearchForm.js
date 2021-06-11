@@ -13,7 +13,11 @@ function SearchForm() {
             placeholder="Фильм"
             id="movie"
           />
-          <button className="search-form__button" type="button" aria-label="Найти" />
+          <button
+            className="search-form__button"
+            type="button"
+            aria-label="Найти"
+          />
         </form>
         <label className="search-form__filter" htmlFor="filter">
           Короткометражки

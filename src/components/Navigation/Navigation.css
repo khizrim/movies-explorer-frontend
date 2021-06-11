@@ -99,7 +99,7 @@
 
 @media screen and (max-width: 989px) {
   .navigation {
-    align-items: flex-end;
+    align-items: center;
   }
 
   .navigation_opened {
@@ -107,6 +107,7 @@
     top: 0;
     right: 0;
     bottom: 0;
+    z-index: 1;
     flex-direction: column-reverse;
     width: 100%;
     background: rgba(0, 0, 0, .3);

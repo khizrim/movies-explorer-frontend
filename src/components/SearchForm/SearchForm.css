@@ -82,6 +82,7 @@
   width: 36px;
   height: 20px;
   outline: none;
+  border: none;
   border-radius: 20px;
   background-color: #ebebeb;
   cursor: pointer;

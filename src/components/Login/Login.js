@@ -1,14 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import useForm from '../../hooks/useForm';
 import FormPage from '../FormPage/FormPage';
 
 import './Login.css';
 
-function Login() {
+function Login(props) {
+  Login.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
+
   const {
-    handleChange, validateForm, errors, formValidity,
+    handleChange, validateForm, values, errors, formValidity,
   } = useForm();
+
+  const { email, password } = values;
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.onSubmit(email, password);
+  }
 
   return (
     <div className="login">
@@ -20,6 +32,7 @@ function Login() {
         captionLinkUrl="/signup"
         isValid={formValidity}
         validate={validateForm}
+        onSubmit={handleSubmit}
       >
         <>
           <label htmlFor="email" className="form-page__label">

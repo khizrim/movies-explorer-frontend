@@ -1,28 +1,63 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import useForm from '../../hooks/useForm';
+import CurrentUserContext from '../../contexts/CurrentUserContext';
+
 import Header from '../Header/Header';
 
 import './Profile.css';
 
-function Profile() {
+function Profile(props) {
+  const { isLoggedIn, onUserUpdate, onSignOut } = props;
+
+  Profile.propTypes = {
+    isLoggedIn: PropTypes.bool.isRequired,
+    onUserUpdate: PropTypes.func.isRequired,
+    onSignOut: PropTypes.func.isRequired,
+  };
+
   const {
-    handleChange, validateForm, errors, formValidity,
+    handleChange,
+    validateForm,
+    setValues,
+    reset,
+    values,
+    errors,
+    formValidity,
   } = useForm();
+
+  const { name, email } = values;
+
+  const currentUser = React.useContext(CurrentUserContext);
+
+  React.useEffect(() => {
+    setValues(currentUser);
+  }, [currentUser, setValues]);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    onUserUpdate(name, email, reset);
+  }
 
   return (
     <>
-      <Header isLoggedIn />
+      <Header isLoggedIn={isLoggedIn} />
       <section className="profile">
-        <h1 className="profile__title">Привет, Виталий!</h1>
-        <form className="profile__form" id="profile" onChange={validateForm}>
+        <h1 className="profile__title">{`Привет, ${name}!`}</h1>
+        <form
+          className="profile__form"
+          id="profile"
+          onChange={validateForm}
+          onSubmit={handleSubmit}
+        >
           <label className="profile__label" htmlFor="name">
             Имя
             <input
               id="user-name"
               name="name"
               type="text"
-              defaultValue="Виталий"
+              value={name || ''}
               className={`profile__input ${
                 errors.name ? 'profile__input_type_error' : ''
               }`}
@@ -42,7 +77,7 @@ function Profile() {
               id="user-email"
               name="email"
               type="email"
-              defaultValue="vitaliy@yandex.ru"
+              value={email || ''}
               className={`profile__input ${
                 errors.email ? 'profile__input_type_error' : ''
               }`}
@@ -68,6 +103,7 @@ function Profile() {
           <button
             className="profile__button profile__button_type_logout"
             type="button"
+            onClick={onSignOut}
             disabled={formValidity}
           >
             Выйти из аккаунта

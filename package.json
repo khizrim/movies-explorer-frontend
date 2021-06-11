@@ -19,6 +19,7 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "csscomb": "^4.3.0",
     "eslint": "^7.27.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -28,8 +29,9 @@
     "eslint-plugin-react-hooks": "^4.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env PORT=3001 react-scripts start",
     "build": "react-scripts build",
+    "deploy": "npm run build && scp -r ./build/* khizrim@178.154.212.251:/home/khizrim/frontend",
     "test": "react-scripts test",
     "csscomb": "./node_modules/.bin/csscomb src/components",
     "eject": "react-scripts eject",

@@ -16,6 +16,7 @@ function FormPage(props) {
     children,
     isValid,
     validate,
+    onSubmit,
   } = props;
 
   FormPage.propTypes = {
@@ -27,6 +28,7 @@ function FormPage(props) {
     children: PropTypes.element.isRequired,
     isValid: PropTypes.bool.isRequired,
     validate: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired,
   };
 
   return (
@@ -44,6 +46,7 @@ function FormPage(props) {
         id="form-page"
         autoComplete="on"
         onChange={validate}
+        onSubmit={onSubmit}
         noValidate
       >
         {children}

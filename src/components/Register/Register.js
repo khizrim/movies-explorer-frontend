@@ -1,14 +1,26 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import useForm from '../../hooks/useForm';
 import FormPage from '../FormPage/FormPage';
 
 import './Register.css';
 
-function Register() {
+function Register(props) {
+  Register.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  };
+
   const {
-    handleChange, validateForm, errors, formValidity,
+    handleChange, validateForm, values, errors, formValidity,
   } = useForm();
+
+  const { name, email, password } = values;
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    props.onSubmit(name, email, password);
+  }
 
   return (
     <div className="register">
@@ -20,6 +32,7 @@ function Register() {
         captionLinkUrl="/signin"
         isValid={formValidity}
         validate={validateForm}
+        onSubmit={handleSubmit}
       >
         <>
           <label htmlFor="name" className="form-page__label">
