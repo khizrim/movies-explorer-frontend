@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import filterMovies from '../../utils/filterMovies';
+
 import Header from '../Header/Header';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
@@ -20,11 +22,18 @@ function Movies(props) {
     getMovies: PropTypes.func.isRequired,
   };
 
+  const [searchKey, setSearchKey] = React.useState('');
   const [shortFilmsOnly, setShortFilmsOnly] = React.useState(false);
+  const [shownMovies, setShownMovies] = React.useState([]);
 
   const handleShortFilmsOnly = (e) => {
     setShortFilmsOnly(e.target.checked);
     localStorage.setItem('shortFilmsOnly', e.target.checked);
+  };
+
+  const handleSearchQuery = (key) => {
+    setSearchKey(key);
+    localStorage.setItem('searchKey', key);
   };
 
   React.useEffect(() => {
@@ -32,17 +41,25 @@ function Movies(props) {
     setShortFilmsOnly(localStorage.getItem('shortFilmsOnly') === 'true');
   }, []);
 
+  React.useEffect(() => {
+    if (searchKey) {
+      const filteredMovies = filterMovies(movies, searchKey, shortFilmsOnly);
+      setShownMovies(filteredMovies);
+    }
+  }, [searchKey]);
+
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />
       <SearchForm
         checkBoxState={shortFilmsOnly}
         onCheck={handleShortFilmsOnly}
+        onSubmit={handleSearchQuery}
       />
       <MoviesCardList
         isLoading={isLoading}
         shortFilmsOnly={shortFilmsOnly}
-        moviesList={movies}
+        moviesList={shownMovies}
         onlySaved={false}
       />
       <Footer />
