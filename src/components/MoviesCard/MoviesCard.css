@@ -39,6 +39,7 @@
 }
 
 .movies-card__cover-link {
+  overflow: hidden;
   width: 100%;
   height: 100%;
   cursor: pointer;
