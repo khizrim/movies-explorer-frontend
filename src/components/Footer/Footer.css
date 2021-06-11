@@ -94,11 +94,10 @@
     align-items: center;
     flex-direction: column-reverse;
     margin: 30px auto;
-
-    gap: 30px;
   }
 
   .footer__copyright {
+    margin-top: 30px;
     color: #a0a0a0;
     font-size: 12px;
     line-height: 15px;
