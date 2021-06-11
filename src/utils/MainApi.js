@@ -1,86 +1,80 @@
+/* eslint-disable*/
+import { MAIN_URL } from './constants';
+
 class MainApi {
-  constructor(url) {
-    this.url = url;
+  constructor({ baseUrl, headers }) {
+    this._baseUrl = baseUrl;
+    this._headers = headers;
+  }
+
+  _getResponseData(res) {
+    if (!res.ok) {
+      return Promise.reject(new Error(`Ошибка: ${res.status}`));
+    }
+
+    return res.json();
   }
 
   async getUserData() {
-    const res = await fetch(`${this.url}/users/me`, {
+    const res = await fetch(`${this._baseUrl}/users/me`, {
       method: 'GET',
+      headers: this._headers,
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
     });
 
-    if (!res.ok) {
-      return Promise.reject(new Error(`Ошибка: ${res.status}`));
-    }
-
-    return res.json();
+    return this._getResponseData(res);
   }
 
   async signUpUser(userData) {
-    const res = await fetch(`${this.url}/signup`, {
+    const res = await fetch(`${this._baseUrl}/signup`, {
       method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: this._headers,
+
       body: JSON.stringify(userData),
     });
 
-    if (!res.ok) {
-      return Promise.reject(new Error(`Ошибка: ${res.status}`));
-    }
-
-    return res.json();
+    return this._getResponseData(res);
   }
 
   async signInUser(userData) {
-    const res = await fetch(`${this.url}/signin`, {
+    const res = await fetch(`${this._baseUrl}/signin`, {
       method: 'POST',
+      headers: this._headers,
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+
       body: JSON.stringify(userData),
     });
 
-    if (!res.ok) {
-      return Promise.reject(new Error(`Ошибка: ${res.status}`));
-    }
-
-    return res.json();
+    return this._getResponseData(res);
   }
 
   async signOutUser() {
-    await fetch(`${this.url}/signout`, {
+    await fetch(`${this._baseUrl}/signout`, {
       method: 'POST',
+      headers: this._headers,
+
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
     });
   }
 
   async updateUser(newUserData) {
-    const res = await fetch(`${this.url}/users/me`, {
+    const res = await fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
+      headers: this._headers,
       credentials: 'include',
 
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify(newUserData),
     });
-    if (!res.ok) {
-      return Promise.reject(new Error(`Ошибка: ${res.status}`));
-    }
 
-    return res.json();
+    return this._getResponseData(res);
   }
 }
 
-const mainApi = new MainApi('http://localhost:3000');
+const mainApi = new MainApi({
+  baseUrl: MAIN_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 export default mainApi;
