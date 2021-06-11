@@ -1,3 +1,4 @@
+const MAIN_URL = 'http://localhost:3000';
 const MOVIES_URL = 'https://api.nomoreparties.co';
 
 const MOVIES_PER_PAGE = {
@@ -19,7 +20,4 @@ const MOVIES_PER_PAGE = {
   },
 };
 
-export {
-  MOVIES_URL,
-  MOVIES_PER_PAGE,
-};
+export { MAIN_URL, MOVIES_URL, MOVIES_PER_PAGE };
