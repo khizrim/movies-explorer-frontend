@@ -99,6 +99,7 @@ function App() {
   const handleSignOut = async () => {
     await mainApi.signOutUser();
     setIsLoggedIn(false);
+    localStorage.clear();
     history.push('/');
   };
 
