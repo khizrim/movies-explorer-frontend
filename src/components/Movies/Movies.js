@@ -20,24 +20,24 @@ function Movies(props) {
     getMovies: PropTypes.func.isRequired,
   };
 
-  const [shortMoviesOnly, setShortMoviesOnly] = React.useState(false);
+  const [shortFilmsOnly, setShortFilmsOnly] = React.useState(false);
 
-  const handleShortMoviesOnly = (e) => {
-    setShortMoviesOnly(e.target.checked);
-    localStorage.setItem('shortMoviesOnly', e.target.checked);
+  const handleShortFilmsOnly = (e) => {
+    setShortFilmsOnly(e.target.checked);
+    localStorage.setItem('shortFilmsOnly', e.target.checked);
   };
 
   React.useEffect(() => {
     getMovies();
-    setShortMoviesOnly(localStorage.getItem('shortMoviesOnly') === 'true');
+    setShortFilmsOnly(localStorage.getItem('shortFilmsOnly') === 'true');
   }, []);
 
   return (
     <>
       <Header isLoggedIn={isLoggedIn} />
       <SearchForm
-        checkBoxState={shortMoviesOnly}
-        onCheck={handleShortMoviesOnly}
+        checkBoxState={shortFilmsOnly}
+        onCheck={handleShortFilmsOnly}
       />
       <MoviesCardList
         isLoading={isLoading}
