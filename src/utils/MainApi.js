@@ -68,6 +68,49 @@ class MainApi {
 
     return this._getResponseData(res);
   }
+
+  async getSavedMovies() {
+    const res = await fetch(`${this._baseUrl}/movies`, {
+      method: 'GET',
+      headers: this._headers,
+      credentials: 'include',
+    })
+
+    return this._getResponseData(res);
+  }
+
+  async saveMovie() {
+    const res = await fetch(`${this._baseUrl}/movies`, {
+      method: 'POST',
+      headers: this._headers,
+      credentials: 'include',
+      body: JSON.stringify({
+        country: country || 'no country',
+        director,
+        duration,
+        year,
+        description,
+        image,
+        trailer: trailerLink || 'no trailer',
+        nameRU: nameRU || 'no name',
+        nameEN: nameEN || 'no name',
+        thumbnail,
+        movieId: id,
+      })
+    })
+
+    return this._getResponseData(res);
+  }
+
+  async deleteMovie(movieId) {
+    const res = await fetch(`${this._baseUrl}/movies/${movieId}`, {
+      method: 'DELETE',
+      headers: this._headers,
+      credentials: 'include',
+    })
+
+    return this._getResponseData(res);
+  }
 }
 
 const mainApi = new MainApi({
