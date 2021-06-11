@@ -41,6 +41,7 @@ function Movies(props) {
       />
       <MoviesCardList
         isLoading={isLoading}
+        shortFilmsOnly={shortFilmsOnly}
         moviesList={movies}
         onlySaved={false}
       />
