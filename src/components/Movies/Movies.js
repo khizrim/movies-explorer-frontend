@@ -25,6 +25,7 @@ function Movies(props) {
   const [searchKey, setSearchKey] = React.useState('');
   const [shortFilmsOnly, setShortFilmsOnly] = React.useState(false);
   const [shownMovies, setShownMovies] = React.useState([]);
+  const [isNothingFound, setIsNothingFound] = React.useState(false);
   const [isButtonHidden, setIsButtonHidden] = React.useState(true);
 
   const handleShortFilmsOnly = (e) => {
@@ -43,15 +44,22 @@ function Movies(props) {
   }, []);
 
   React.useEffect(() => {
+    const isEmpty = shownMovies.length <= 3;
+
+    isEmpty
+      ? setIsButtonHidden(true)
+      : setIsButtonHidden(false);
+  }, [shownMovies]);
+
+  React.useEffect(() => {
     if (searchKey) {
       const filteredMovies = filterMovies(movies, searchKey, shortFilmsOnly);
+
+      filteredMovies.length === 0 ? setIsNothingFound(true) : setIsNothingFound(false);
+
       setShownMovies(filteredMovies);
     }
-
-    if (shownMovies.length >= 1) {
-      setIsButtonHidden(false);
-    }
-  }, [searchKey, shownMovies]);
+  }, [searchKey, shortFilmsOnly]);
 
   return (
     <>
@@ -63,6 +71,7 @@ function Movies(props) {
       />
       <MoviesCardList
         isLoading={isLoading}
+        isNothingFound={isNothingFound}
         shortFilmsOnly={shortFilmsOnly}
         moviesList={shownMovies}
         isButtonHidden={isButtonHidden}

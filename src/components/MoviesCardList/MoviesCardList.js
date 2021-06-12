@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -12,13 +13,14 @@ import './MoviesCardList.css';
 
 function MoviesCardList(props) {
   const {
-    isLoading, moviesList, onlySaved, isButtonHidden,
+    isLoading, isNothingFound, moviesList, onlySaved, isButtonHidden,
   } = props;
 
   const screenWidth = useWindowWidth();
 
   MoviesCardList.propTypes = {
     isLoading: PropTypes.bool.isRequired,
+    isNothingFound: PropTypes.bool.isRequired,
     moviesList: PropTypes.arrayOf(PropTypes.object).isRequired,
     onlySaved: PropTypes.bool.isRequired,
     isButtonHidden: PropTypes.bool.isRequired,
@@ -57,32 +59,36 @@ function MoviesCardList(props) {
   return isLoading ? (
     <Preloader />
   ) : (
-    <>
-      <section className="movies-card-list">
-        {moviesList
-          .filter(filterSaved)
-          .slice(0, moviesToShow)
-          .map((movie) => (
-            <MoviesCard
-              key={movie.id}
-              title={movie.nameRU}
-              duration={movie.duration}
-              trailerLink={movie.trailerLink}
-              cover={movie}
-              isSaved={movie.isSaved}
-            />
-          ))}
-      </section>
-      <button
-        className={`movies-card-list__more ${
-          isButtonHidden ? 'movies-card-list__more_hidden' : ''
-        }`}
-        type="button"
-        onClick={handleShowMoreMovies}
-      >
-        Ещё
-      </button>
-    </>
+    isNothingFound ? (
+      <p>Ничего не найдено</p>
+    ) : (
+      <>
+        <section className="movies-card-list">
+          {moviesList
+            .filter(filterSaved)
+            .slice(0, moviesToShow)
+            .map((movie) => (
+              <MoviesCard
+                key={movie.id}
+                title={movie.nameRU}
+                duration={movie.duration}
+                trailerLink={movie.trailerLink}
+                cover={movie}
+                isSaved={movie.isSaved}
+              />
+            ))}
+        </section>
+        <button
+          className={`movies-card-list__more ${
+            isButtonHidden ? 'movies-card-list__more_hidden' : ''
+          }`}
+          type="button"
+          onClick={handleShowMoreMovies}
+        >
+          Ещё
+        </button>
+      </>
+    )
   );
 }
 
