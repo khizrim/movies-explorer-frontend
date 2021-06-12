@@ -6,7 +6,9 @@ import useForm from '../../hooks/useForm';
 import './SearchForm.css';
 
 function SearchForm(props) {
-  const { checkBoxState, onCheck, onSubmit } = props;
+  const {
+    checkBoxState, onCheck, onSubmit,
+  } = props;
 
   SearchForm.propTypes = {
     checkBoxState: PropTypes.bool.isRequired,
@@ -31,6 +33,7 @@ function SearchForm(props) {
             id="movie"
             name="key"
             type="text"
+            value={values.key || ''}
             onChange={handleChange}
             className="search-form__input"
             placeholder="Фильм"

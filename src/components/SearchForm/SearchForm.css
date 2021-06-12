@@ -18,10 +18,12 @@
   align-items: center;
   justify-content: space-between;
   box-sizing: border-box;
-  padding: 0 7px;
+  padding: 7px;
   width: 100%;
   border: 1.5px solid rgba(170, 170, 170, 0.2);
   border-radius: 50px;
+
+  gap: 10px;
 }
 
 .search-form__form:focus-within {
@@ -29,7 +31,7 @@
 }
 
 .search-form__input {
-  padding: 15px 8px;
+  padding: 8px;
   width: 100%;
   outline: 0;
   border: none;
