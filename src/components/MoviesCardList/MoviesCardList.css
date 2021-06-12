@@ -29,6 +29,10 @@
   opacity: .6;
 }
 
+.movies-card-list__more_hidden {
+  display: none;
+}
+
 @media only screen and (max-width: 989px) {
   .movies-card-list {
     width: calc(100% - 30px * 2);

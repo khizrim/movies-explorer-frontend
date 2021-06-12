@@ -12,7 +12,7 @@ import './MoviesCardList.css';
 
 function MoviesCardList(props) {
   const {
-    isLoading, moviesList, onlySaved,
+    isLoading, moviesList, onlySaved, isButtonHidden,
   } = props;
 
   const screenWidth = useWindowWidth();
@@ -21,6 +21,7 @@ function MoviesCardList(props) {
     isLoading: PropTypes.bool.isRequired,
     moviesList: PropTypes.arrayOf(PropTypes.object).isRequired,
     onlySaved: PropTypes.bool.isRequired,
+    isButtonHidden: PropTypes.bool.isRequired,
   };
 
   const [moviesToShow, setMoviesToShow] = React.useState(
@@ -73,7 +74,9 @@ function MoviesCardList(props) {
           ))}
       </section>
       <button
-        className="movies-card-list__more"
+        className={`movies-card-list__more ${
+          isButtonHidden ? 'movies-card-list__more_hidden' : ''
+        }`}
         type="button"
         onClick={handleShowMoreMovies}
       >

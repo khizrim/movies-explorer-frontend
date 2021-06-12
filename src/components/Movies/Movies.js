@@ -25,6 +25,7 @@ function Movies(props) {
   const [searchKey, setSearchKey] = React.useState('');
   const [shortFilmsOnly, setShortFilmsOnly] = React.useState(false);
   const [shownMovies, setShownMovies] = React.useState([]);
+  const [isButtonHidden, setIsButtonHidden] = React.useState(true);
 
   const handleShortFilmsOnly = (e) => {
     setShortFilmsOnly(e.target.checked);
@@ -46,7 +47,11 @@ function Movies(props) {
       const filteredMovies = filterMovies(movies, searchKey, shortFilmsOnly);
       setShownMovies(filteredMovies);
     }
-  }, [searchKey]);
+
+    if (shownMovies.length >= 1) {
+      setIsButtonHidden(false);
+    }
+  }, [searchKey, shownMovies]);
 
   return (
     <>
@@ -60,6 +65,7 @@ function Movies(props) {
         isLoading={isLoading}
         shortFilmsOnly={shortFilmsOnly}
         moviesList={shownMovies}
+        isButtonHidden={isButtonHidden}
         onlySaved={false}
       />
       <Footer />
