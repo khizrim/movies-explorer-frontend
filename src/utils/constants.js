@@ -1,4 +1,4 @@
-const MAIN_URL = 'http://localhost:3000';
+const MAIN_URL = 'https://api.movies-explorer.khizrim.ru';
 const MOVIES_URL = 'https://api.nomoreparties.co';
 
 const MOVIES_PER_PAGE = {
