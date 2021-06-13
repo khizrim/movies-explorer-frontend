@@ -112,6 +112,7 @@ function App() {
 
   const handleSignUp = async (name, email, password) => {
     try {
+      handleLoading(true, 'Регистрация...');
       await mainApi.signUpUser({
         name,
         email,
@@ -124,12 +125,14 @@ function App() {
         code: status,
         type: 'signup',
       });
+    } finally {
+      handleLoading(false);
     }
   };
 
   const handleSignIn = async (email, password) => {
     try {
-      handleLoading(true, 'Регистрация...');
+      handleLoading(true, 'Вход...');
       const user = await mainApi.signInUser({
         email,
         password,

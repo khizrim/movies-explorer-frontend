@@ -30,7 +30,7 @@ function Login(props) {
     <div className="login">
       <FormPage
         title="Рады видеть!"
-        buttonText={buttonState || 'Зарегистрироваться'}
+        buttonText={buttonState || 'Войти'}
         captionText="Ещё не зарегистрированы?"
         captionLinkText="Регистрация"
         captionLinkUrl="/signup"
