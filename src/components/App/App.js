@@ -177,7 +177,9 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    getSavedMovies();
+    if(isLoggedIn) {
+      getSavedMovies();
+    }
   }, [isLoggedIn]);
 
   return (
