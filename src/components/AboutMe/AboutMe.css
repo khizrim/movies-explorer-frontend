@@ -98,14 +98,17 @@
     align-items: center;
     flex-direction: column-reverse;
     margin: 60px auto 69px;
-
-    gap: 40px;
+    gap: 0;
   }
 
   .about-me__image {
     max-width: 295px;
     width: 100%;
     border-radius: 10px;
+  }
+
+  .about-me__profile {
+    margin-top: 40px;
   }
 
   .about-me__title {
