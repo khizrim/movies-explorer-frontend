@@ -1,10 +1,13 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Link } from 'react-router-dom';
 
-import './FormPage.css';
 import logo from '../../images/logo.svg';
+import InfoMessage from '../InfoMessage/InfoMessage';
+
+import './FormPage.css';
 
 function FormPage(props) {
   const {
@@ -17,6 +20,7 @@ function FormPage(props) {
     isValid,
     validate,
     onSubmit,
+    infoMessage,
   } = props;
 
   FormPage.propTypes = {
@@ -29,6 +33,7 @@ function FormPage(props) {
     isValid: PropTypes.bool.isRequired,
     validate: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    infoMessage: PropTypes.objectOf(PropTypes.any).isRequired,
   };
 
   return (
@@ -51,6 +56,7 @@ function FormPage(props) {
       >
         {children}
       </form>
+      <InfoMessage {...infoMessage} />
       <button
         form="form-page"
         className={`form-page__button ${

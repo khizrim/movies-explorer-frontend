@@ -7,7 +7,10 @@ import FormPage from '../FormPage/FormPage';
 import './Register.css';
 
 function Register(props) {
+  const { infoMessage, onSubmit } = props;
+
   Register.propTypes = {
+    infoMessage: PropTypes.objectOf(PropTypes.any).isRequired,
     onSubmit: PropTypes.func.isRequired,
   };
 
@@ -19,7 +22,7 @@ function Register(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    props.onSubmit(name, email, password);
+    onSubmit(name, email, password);
   }
 
   return (
@@ -33,6 +36,7 @@ function Register(props) {
         isValid={formValidity}
         validate={validateForm}
         onSubmit={handleSubmit}
+        infoMessage={infoMessage}
       >
         <>
           <label htmlFor="name" className="form-page__label">

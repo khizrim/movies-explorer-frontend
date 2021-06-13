@@ -1,15 +1,16 @@
 /* eslint-disable*/
-import { MAIN_URL } from './constants';
+import { MAIN_URL, MOVIES_URL } from './constants';
 
 class MainApi {
-  constructor({ baseUrl, headers }) {
+  constructor({ baseUrl, moviesUrl, headers }) {
     this._baseUrl = baseUrl;
+    this._moviesUrl = moviesUrl;
     this._headers = headers;
   }
 
   _getResponseData(res) {
     if (!res.ok) {
-      return Promise.reject(new Error(`Ошибка: ${res.status}`));
+      return Promise.reject(res);
     }
 
     return res.json();
@@ -74,30 +75,42 @@ class MainApi {
       method: 'GET',
       headers: this._headers,
       credentials: 'include',
-    })
+    });
 
     return this._getResponseData(res);
   }
 
-  async saveMovie() {
+  async saveMovie({
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    nameRU,
+    nameEN,
+    id,
+  }) {
     const res = await fetch(`${this._baseUrl}/movies`, {
       method: 'POST',
       headers: this._headers,
       credentials: 'include',
+
       body: JSON.stringify({
-        country: country || 'no country',
+        country: country || 'no-country',
         director,
         duration,
         year,
         description,
-        image,
-        trailer: trailerLink || 'no trailer',
+        image: `${this._moviesUrl}${image.url}`,
+        trailer: trailerLink,
         nameRU: nameRU || 'no name',
         nameEN: nameEN || 'no name',
-        thumbnail,
+        thumbnail: `${this._moviesUrl}${image.formats.thumbnail.url}`,
         movieId: id,
-      })
-    })
+      }),
+    });
 
     return this._getResponseData(res);
   }
@@ -107,7 +120,7 @@ class MainApi {
       method: 'DELETE',
       headers: this._headers,
       credentials: 'include',
-    })
+    });
 
     return this._getResponseData(res);
   }
@@ -115,6 +128,7 @@ class MainApi {
 
 const mainApi = new MainApi({
   baseUrl: MAIN_URL,
+  moviesUrl: MOVIES_URL,
   headers: {
     'Content-Type': 'application/json',
   },

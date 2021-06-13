@@ -1,20 +1,21 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
 
 import useForm from '../../hooks/useForm';
 import CurrentUserContext from '../../contexts/CurrentUserContext';
 
-import Header from '../Header/Header';
+import InfoMessage from '../InfoMessage/InfoMessage';
 
 import './Profile.css';
 
 function Profile(props) {
-  const { isLoggedIn, onUserUpdate, onSignOut } = props;
+  const { onUserUpdate, onSignOut, infoMessage } = props;
 
   Profile.propTypes = {
-    isLoggedIn: PropTypes.bool.isRequired,
     onUserUpdate: PropTypes.func.isRequired,
     onSignOut: PropTypes.func.isRequired,
+    infoMessage: PropTypes.objectOf(PropTypes.any).isRequired,
   };
 
   const {
@@ -40,7 +41,6 @@ function Profile(props) {
 
   return (
     <>
-      <Header isLoggedIn={isLoggedIn} />
       <section className="profile">
         <h1 className="profile__title">{`Привет, ${currentUser.name}!`}</h1>
         <form
@@ -92,11 +92,13 @@ function Profile(props) {
             <span className="profile__input-error">{errors.email}</span>
           )}
         </form>
+        <InfoMessage {...infoMessage} />
         <div className="profile__buttons">
           <button
             className="profile__button profile__button_type_submit"
             type="submit"
             form="profile"
+            disabled={!formValidity}
           >
             Редактировать
           </button>
@@ -104,7 +106,6 @@ function Profile(props) {
             className="profile__button profile__button_type_logout"
             type="button"
             onClick={onSignOut}
-            disabled={formValidity}
           >
             Выйти из аккаунта
           </button>

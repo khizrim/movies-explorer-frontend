@@ -13,18 +13,30 @@ import './MoviesCardList.css';
 
 function MoviesCardList(props) {
   const {
-    isLoading, isNothingFound, moviesList, onlySaved, isButtonHidden,
+    isLoading,
+    isNothingFound,
+    isError,
+    moviesList,
+    savedMoviesList,
+    onMovieSave,
+    onMovieDelete,
+    onlySaved,
   } = props;
-
-  const screenWidth = useWindowWidth();
 
   MoviesCardList.propTypes = {
     isLoading: PropTypes.bool.isRequired,
     isNothingFound: PropTypes.bool.isRequired,
+    isError: PropTypes.bool.isRequired,
     moviesList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    savedMoviesList: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onMovieSave: PropTypes.func.isRequired,
+    onMovieDelete: PropTypes.func.isRequired,
     onlySaved: PropTypes.bool.isRequired,
-    isButtonHidden: PropTypes.bool.isRequired,
   };
+
+  const screenWidth = useWindowWidth();
+
+  const [isButtonHidden, setIsButtonHidden] = React.useState(true);
 
   const [moviesToShow, setMoviesToShow] = React.useState(
     MOVIES_PER_PAGE.DEFAULT.TO_SHOW,
@@ -34,11 +46,47 @@ function MoviesCardList(props) {
     MOVIES_PER_PAGE.DEFAULT.TO_ADD,
   );
 
-  const filterSaved = (movie) => (onlySaved ? movie.isSaved : movie);
-
   const handleShowMoreMovies = () => {
     setMoviesToShow(moviesToShow + moviesToAdd);
   };
+
+  const handleMovieLikeState = (movie) => savedMoviesList.some(
+    (savedMovie) => savedMovie.movieId === movie.id,
+  );
+
+  const listToShow = onlySaved ? savedMoviesList : moviesList;
+
+  const getInitialMoviesMarkup = () => listToShow.slice(0, moviesToShow).map((movie) => {
+    const savedCard = savedMoviesList.find((m) => m.movieId === movie.id);
+    const savedCardId = savedCard ? savedCard._id : null;
+    return (
+      <MoviesCard
+        key={movie.id}
+        movie={{ ...movie, _id: savedCardId }}
+        handleMovieLikeState={handleMovieLikeState}
+        onMovieSave={onMovieSave}
+        onMovieDelete={onMovieDelete}
+      />
+    );
+  });
+
+  const getSavedMoviesMarkup = () => listToShow
+    .slice(0, moviesToShow)
+    .map((movie) => (
+      <MoviesCard
+        key={movie._id}
+        movie={movie}
+        handleMovieLikeState={handleMovieLikeState}
+        onMovieSave={onMovieSave}
+        onMovieDelete={onMovieDelete}
+      />
+    ));
+
+  React.useEffect(() => {
+    const isAll = listToShow.length <= moviesToShow;
+
+    isAll ? setIsButtonHidden(true) : setIsButtonHidden(false);
+  }, [listToShow, moviesToShow]);
 
   React.useEffect(() => {
     screenWidth;
@@ -56,39 +104,39 @@ function MoviesCardList(props) {
     }
   }, [screenWidth]);
 
-  return isLoading ? (
-    <Preloader />
-  ) : (
-    isNothingFound ? (
-      <p>Ничего не найдено</p>
-    ) : (
-      <>
-        <section className="movies-card-list">
-          {moviesList
-            .filter(filterSaved)
-            .slice(0, moviesToShow)
-            .map((movie) => (
-              <MoviesCard
-                key={movie.id}
-                title={movie.nameRU}
-                duration={movie.duration}
-                trailerLink={movie.trailerLink}
-                cover={movie}
-                isSaved={movie.isSaved}
-              />
-            ))}
-        </section>
-        <button
-          className={`movies-card-list__more ${
-            isButtonHidden ? 'movies-card-list__more_hidden' : ''
+  return (
+    <section className="movies-cards">
+      {isLoading ? (
+        <Preloader />
+      ) : isNothingFound || isError ? (
+        <p
+          className={`movies-cards__message ${
+            isError && 'movies-cards__message_error'
           }`}
-          type="button"
-          onClick={handleShowMoreMovies}
         >
-          Ещё
-        </button>
-      </>
-    )
+          {isError
+            ? `Во время запроса произошла ошибка.
+              Возможно, проблема с соединением или сервер недоступен.
+              Подождите немного и попробуйте ещё раз.`
+            : 'Ничего не найдено'}
+        </p>
+      ) : (
+        <>
+          <div className="movies-cards__list">
+            {onlySaved ? getSavedMoviesMarkup() : getInitialMoviesMarkup()}
+          </div>
+          <button
+            className={`movies-cards__more ${
+              isButtonHidden ? 'movies-cards__more_hidden' : ''
+            }`}
+            type="button"
+            onClick={handleShowMoreMovies}
+          >
+            Ещё
+          </button>
+        </>
+      )}
+    </section>
   );
 }
 

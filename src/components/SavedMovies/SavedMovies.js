@@ -1,50 +1,79 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Header from '../Header/Header';
+import filterMovies from '../../utils/filterMovies';
+
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
-
 import './SavedMovies.css';
 
 function SavedMovies(props) {
   const {
-    isLoggedIn, isLoading, movies, getMovies,
+    isLoading, isError, savedMovies, onMovieSave, onMovieDelete,
   } = props;
 
   SavedMovies.propTypes = {
-    isLoggedIn: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    movies: PropTypes.arrayOf(PropTypes.object).isRequired,
-    getMovies: PropTypes.func.isRequired,
+    isError: PropTypes.bool.isRequired,
+    savedMovies: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onMovieSave: PropTypes.func.isRequired,
+    onMovieDelete: PropTypes.func.isRequired,
   };
 
+  const [searchKey, setSearchKey] = React.useState('');
   const [shortFilmsOnly, setShortFilmsOnly] = React.useState(false);
+  const [shownMovies, setShownMovies] = React.useState([]);
+  const [isNothingFound, setIsNothingFound] = React.useState(false);
 
   const handleShortFilmsOnly = (e) => {
     setShortFilmsOnly(e.target.checked);
     localStorage.setItem('shortFilmsOnly', e.target.checked);
   };
 
+  const handleSearchQuery = (key) => {
+    setSearchKey(key);
+    localStorage.setItem('searchKey', key);
+  };
+
   React.useEffect(() => {
-    getMovies();
     setShortFilmsOnly(localStorage.getItem('shortFilmsOnly') === 'true');
-  }, []);
+  }, [shownMovies]);
+
+  React.useEffect(() => {
+    if (searchKey) {
+      const filteredMovies = filterMovies(
+        savedMovies,
+        searchKey,
+        shortFilmsOnly,
+      );
+
+      filteredMovies.length === 0
+        ? setIsNothingFound(true)
+        : setIsNothingFound(false);
+
+      setShownMovies(filteredMovies);
+    }
+  }, [searchKey, shortFilmsOnly]);
 
   return (
     <>
-      <Header
-        isLoggedIn={isLoggedIn}
-      />
       <SearchForm
+        searchKey={searchKey}
         checkBoxState={shortFilmsOnly}
         onCheck={handleShortFilmsOnly}
+        onSubmit={handleSearchQuery}
       />
       <MoviesCardList
         isLoading={isLoading}
-        moviesList={movies}
-        onlySaved={false}
+        isNothingFound={isNothingFound}
+        isError={isError}
+        shortFilmsOnly={shortFilmsOnly}
+        moviesList={shownMovies}
+        savedMoviesList={savedMovies}
+        onMovieSave={onMovieSave}
+        onMovieDelete={onMovieDelete}
+        onlySaved
       />
       <Footer />
     </>

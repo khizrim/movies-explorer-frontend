@@ -7,7 +7,10 @@ import FormPage from '../FormPage/FormPage';
 import './Login.css';
 
 function Login(props) {
+  const { infoMessage, onSubmit } = props;
+
   Login.propTypes = {
+    infoMessage: PropTypes.objectOf(PropTypes.any).isRequired,
     onSubmit: PropTypes.func.isRequired,
   };
 
@@ -19,7 +22,7 @@ function Login(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    props.onSubmit(email, password);
+    onSubmit(email, password);
   }
 
   return (
@@ -33,6 +36,7 @@ function Login(props) {
         isValid={formValidity}
         validate={validateForm}
         onSubmit={handleSubmit}
+        infoMessage={infoMessage}
       >
         <>
           <label htmlFor="email" className="form-page__label">

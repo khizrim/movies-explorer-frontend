@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router';
@@ -12,30 +13,45 @@ import './MoviesCard.css';
 
 function MoviesCard(props) {
   const {
-    cover, title, duration, trailerLink, isSaved,
+    movie, handleMovieLikeState, onMovieSave, onMovieDelete,
   } = props;
 
   MoviesCard.propTypes = {
-    cover: PropTypes.objectOf(PropTypes.any).isRequired,
-    title: PropTypes.string.isRequired,
-    duration: PropTypes.number.isRequired,
-    trailerLink: PropTypes.string.isRequired,
-    isSaved: PropTypes.bool,
+    movie: PropTypes.objectOf(PropTypes.any).isRequired,
+    handleMovieLikeState: PropTypes.func.isRequired,
+    onMovieSave: PropTypes.func.isRequired,
+    onMovieDelete: PropTypes.func.isRequired,
   };
 
-  MoviesCard.defaultProps = {
-    isSaved: false,
-  };
+  const [isSaved, setIsSaved] = React.useState(handleMovieLikeState(movie));
 
-  const movieImage = cover.image ? `${MOVIES_URL}${cover.image.url}` : noCover;
+  const movieImage = movie.image.url
+    ? `${MOVIES_URL}${movie.image.url}`
+    : movie.image
+      ? movie.image
+      : noCover;
+
+  function handleMovieSave() {
+    onMovieSave(movie);
+    setIsSaved(!isSaved);
+  }
+
+  function handleMovieDelete() {
+    onMovieDelete(movie._id);
+    setIsSaved(!isSaved);
+  }
+
+  React.useEffect(() => {
+    handleMovieLikeState(movie);
+  }, []);
 
   return (
     <article className="movies-card">
       <div className="movies-card__body">
         <div className="movies-card__info">
-          <h4 className="movies-card__title">{title}</h4>
+          <h4 className="movies-card__title">{movie.nameRU}</h4>
           <span className="movies-card__duration">
-            {calcDuration(duration)}
+            {calcDuration(movie.duration)}
           </span>
         </div>
         <Route exact path="/movies">
@@ -45,6 +61,7 @@ function MoviesCard(props) {
             className={`movies-card__save-button ${
               isSaved ? 'movies-card__save-button_active' : ''
             }`}
+            onClick={isSaved ? handleMovieDelete : handleMovieSave}
           />
         </Route>
         <Route exact path="/saved-movies">
@@ -52,18 +69,19 @@ function MoviesCard(props) {
             type="button"
             aria-label="Удалить"
             className="movies-card__delete-button"
+            onClick={handleMovieDelete}
           />
         </Route>
       </div>
       <Link
-        to={{ pathname: trailerLink }}
+        to={{ pathname: movie.trailerLink }}
         className="movies-card__cover-link"
         target="_blank"
       >
         <img
           src={movieImage}
           className="movies-card__cover-image"
-          alt={title}
+          alt={movie.nameRU}
         />
       </Link>
     </article>
