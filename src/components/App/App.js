@@ -26,6 +26,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
+  const [buttonState, setButtonState] = React.useState('');
 
   const [currentUser, setCurrentUser] = React.useState({});
   const [moviesList, setMoviesList] = React.useState([]);
@@ -54,6 +55,7 @@ function App() {
       } catch (err) {
         setIsError(true);
         setMoviesList([]);
+        console.log(err);
       } finally {
         setIsLoading(false);
       }
@@ -72,23 +74,40 @@ function App() {
       } catch (err) {
         setIsError(true);
         setSavedMoviesList([]);
+        console.log(err);
       } finally {
         setIsLoading(false);
       }
     })();
   };
 
+  function handleLoading(isLoading, text) {
+    if (isLoading) {
+      setButtonState(text);
+    } else {
+      setButtonState('');
+    }
+  }
+
   const handleMovieSave = async (movieData) => {
-    const movie = await mainApi.saveMovie(movieData);
-    setSavedMoviesList([movie.data, ...savedMoviesList]);
+    try {
+      const movie = await mainApi.saveMovie(movieData);
+      setSavedMoviesList([movie.data, ...savedMoviesList]);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleMovieDelete = async (movieId) => {
-    await mainApi.deleteMovie(movieId);
+    try {
+      await mainApi.deleteMovie(movieId);
 
-    setSavedMoviesList(
-      savedMoviesList.filter((movie) => movie._id !== movieId),
-    );
+      setSavedMoviesList(
+        savedMoviesList.filter((movie) => movie._id !== movieId),
+      );
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleSignUp = async (name, email, password) => {
@@ -110,6 +129,7 @@ function App() {
 
   const handleSignIn = async (email, password) => {
     try {
+      handleLoading(true, 'Регистрация...');
       const user = await mainApi.signInUser({
         email,
         password,
@@ -126,6 +146,8 @@ function App() {
         code: status,
         type: 'signin',
       });
+    } finally {
+      handleLoading(false);
     }
   };
 
@@ -153,10 +175,14 @@ function App() {
   };
 
   const handleSignOut = async () => {
-    await mainApi.signOutUser();
-    setIsLoggedIn(false);
-    localStorage.clear();
-    history.push('/');
+    try {
+      await mainApi.signOutUser();
+      setIsLoggedIn(false);
+      localStorage.clear();
+      history.push('/');
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   React.useEffect(() => {
@@ -233,12 +259,14 @@ function App() {
             />
             <Route path="/signup">
               <Register
+                buttonState={buttonState}
                 infoMessage={infoMessage}
                 onSubmit={handleSignUp}
               />
             </Route>
             <Route path="/signin">
               <Login
+                buttonState={buttonState}
                 infoMessage={infoMessage}
                 onSubmit={handleSignIn}
               />

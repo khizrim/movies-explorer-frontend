@@ -7,9 +7,10 @@ import FormPage from '../FormPage/FormPage';
 import './Register.css';
 
 function Register(props) {
-  const { infoMessage, onSubmit } = props;
+  const { buttonState, infoMessage, onSubmit } = props;
 
   Register.propTypes = {
+    buttonState: PropTypes.string.isRequired,
     infoMessage: PropTypes.objectOf(PropTypes.any).isRequired,
     onSubmit: PropTypes.func.isRequired,
   };
@@ -29,7 +30,7 @@ function Register(props) {
     <div className="register">
       <FormPage
         title="Добро пожаловать!"
-        buttonText="Зарегистрироваться"
+        buttonText={buttonState || 'Зарегистрироваться'}
         captionText="Уже зарегистрированы?"
         captionLinkText="Войти"
         captionLinkUrl="/signin"

@@ -7,9 +7,10 @@ import FormPage from '../FormPage/FormPage';
 import './Login.css';
 
 function Login(props) {
-  const { infoMessage, onSubmit } = props;
+  const { buttonState, infoMessage, onSubmit } = props;
 
   Login.propTypes = {
+    buttonState: PropTypes.string.isRequired,
     infoMessage: PropTypes.objectOf(PropTypes.any).isRequired,
     onSubmit: PropTypes.func.isRequired,
   };
@@ -29,7 +30,7 @@ function Login(props) {
     <div className="login">
       <FormPage
         title="Рады видеть!"
-        buttonText="Войти"
+        buttonText={buttonState || 'Зарегистрироваться'}
         captionText="Ещё не зарегистрированы?"
         captionLinkText="Регистрация"
         captionLinkUrl="/signup"
