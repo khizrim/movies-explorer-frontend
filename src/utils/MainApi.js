@@ -1,4 +1,3 @@
-/* eslint-disable*/
 import { MAIN_URL, MOVIES_URL } from './constants';
 
 class MainApi {

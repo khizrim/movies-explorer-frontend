@@ -5,9 +5,9 @@
 }
 
 .message__text {
+  color: #3456f3;
   font-size: 12px;
   line-height: 16px;
-  color: #3456f3;
 }
 
 .message__text_error {

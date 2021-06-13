@@ -10,8 +10,8 @@
   flex-direction: column;
   box-sizing: border-box;
   margin: auto;
-  max-width: 1280px;
   min-height: 100vh;
+  max-width: 1280px;
   height: 100%;
   color: #000;
   font-family: 'Inter', Arial, sans-serif;

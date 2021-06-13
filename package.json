@@ -20,7 +20,6 @@
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
-    "csscomb": "^4.3.0",
     "eslint": "^7.27.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.23.4",
