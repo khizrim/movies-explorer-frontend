@@ -31,7 +31,7 @@
   "scripts": {
     "start": "cross-env PORT=3001 react-scripts start",
     "build": "react-scripts build",
-    "deploy": "npm run build && scp -r ./build/* khizrim@178.154.212.251:/home/khizrim/frontend",
+    "deploy": "npm run build && scp -r ./build/* khizrim@84.201.150.202:/home/khizrim/frontend",
     "test": "react-scripts test",
     "csscomb": "./node_modules/.bin/csscomb src/components",
     "eject": "react-scripts eject",
