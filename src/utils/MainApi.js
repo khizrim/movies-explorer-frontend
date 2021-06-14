@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { MAIN_URL, MOVIES_URL } from './constants';
 
 class MainApi {
@@ -8,11 +9,13 @@ class MainApi {
   }
 
   _getResponseData(res) {
-    if (!res.ok) {
-      return Promise.reject(res);
+    this._res = res;
+
+    if (!this._res.ok) {
+      return Promise.reject(this._res);
     }
 
-    return res.json();
+    return this._res.json();
   }
 
   async getUserData() {
