@@ -50,7 +50,7 @@ function Movies(props) {
     if (searchKey) {
       const filteredMovies = filterMovies(movies, searchKey, shortFilmsOnly);
 
-      filteredMovies.length === 0 ? setIsNothingFound(true) : setIsNothingFound(false);
+      !filteredMovies.length ? setIsNothingFound(true) : setIsNothingFound(false);
 
       setShownMovies(filteredMovies);
     }
