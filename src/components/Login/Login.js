@@ -7,9 +7,12 @@ import FormPage from '../FormPage/FormPage';
 import './Login.css';
 
 function Login(props) {
-  const { buttonState, infoMessage, onSubmit } = props;
+  const {
+    isSubmitting, buttonState, infoMessage, onSubmit,
+  } = props;
 
   Login.propTypes = {
+    isSubmitting: PropTypes.bool.isRequired,
     buttonState: PropTypes.string.isRequired,
     infoMessage: PropTypes.objectOf(PropTypes.any).isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -54,6 +57,7 @@ function Login(props) {
               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
               autoComplete="email"
               minLength="2"
+              disabled={isSubmitting}
               required
             />
             {errors.email && (
@@ -73,6 +77,7 @@ function Login(props) {
               autoComplete="current-password"
               placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
               minLength="8"
+              disabled={isSubmitting}
               required
             />
             {errors.password && (

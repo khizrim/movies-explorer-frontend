@@ -7,9 +7,12 @@ import FormPage from '../FormPage/FormPage';
 import './Register.css';
 
 function Register(props) {
-  const { buttonState, infoMessage, onSubmit } = props;
+  const {
+    isSubmitting, buttonState, infoMessage, onSubmit,
+  } = props;
 
   Register.propTypes = {
+    isSubmitting: PropTypes.bool.isRequired,
     buttonState: PropTypes.string.isRequired,
     infoMessage: PropTypes.objectOf(PropTypes.any).isRequired,
     onSubmit: PropTypes.func.isRequired,
@@ -55,6 +58,7 @@ function Register(props) {
               autoComplete="name"
               minLength="2"
               maxLength="30"
+              disabled={isSubmitting}
               required
             />
             {errors.name && (
@@ -75,6 +79,7 @@ function Register(props) {
               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
               autoComplete="email"
               minLength="2"
+              disabled={isSubmitting}
               required
             />
             {errors.email && (
@@ -94,6 +99,7 @@ function Register(props) {
               autoComplete="new-password"
               placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
               minLength="8"
+              disabled={isSubmitting}
               required
             />
             {errors.password && (

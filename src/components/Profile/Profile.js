@@ -10,9 +10,12 @@ import InfoMessage from '../InfoMessage/InfoMessage';
 import './Profile.css';
 
 function Profile(props) {
-  const { onUserUpdate, onSignOut, infoMessage } = props;
+  const {
+    isSubmitting, onUserUpdate, onSignOut, infoMessage,
+  } = props;
 
   Profile.propTypes = {
+    isSubmitting: PropTypes.bool.isRequired,
     onUserUpdate: PropTypes.func.isRequired,
     onSignOut: PropTypes.func.isRequired,
     infoMessage: PropTypes.objectOf(PropTypes.any).isRequired,
@@ -64,6 +67,7 @@ function Profile(props) {
               minLength="2"
               maxLength="30"
               onChange={handleChange}
+              disabled={isSubmitting}
               required
             />
           </label>
@@ -85,6 +89,7 @@ function Profile(props) {
               autoComplete="off"
               minLength="2"
               onChange={handleChange}
+              disabled={isSubmitting}
               required
             />
           </label>

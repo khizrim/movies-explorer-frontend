@@ -25,6 +25,7 @@ function App() {
   const [isChecking, setIsChecking] = React.useState(true);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [isError, setIsError] = React.useState(false);
   const [buttonState, setButtonState] = React.useState('');
 
@@ -112,6 +113,7 @@ function App() {
 
   const handleSignIn = async (email, password) => {
     try {
+      setIsSubmitting(true);
       handleLoading(true, 'Вход...');
       const user = await mainApi.signInUser({
         email,
@@ -130,12 +132,14 @@ function App() {
         type: 'signin',
       });
     } finally {
+      setIsSubmitting(false);
       handleLoading(false);
     }
   };
 
   const handleSignUp = async (name, email, password) => {
     try {
+      setIsSubmitting(true);
       handleLoading(true, 'Регистрация...');
       await mainApi.signUpUser({
         name,
@@ -151,12 +155,14 @@ function App() {
         type: 'signup',
       });
     } finally {
+      setIsSubmitting(false);
       handleLoading(false);
     }
   };
 
   const handleUserUpdate = async (name, email) => {
     try {
+      setIsSubmitting(true);
       const user = await mainApi.updateUser({
         name,
         email,
@@ -175,6 +181,8 @@ function App() {
         code: status,
         type: 'update',
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -263,6 +271,7 @@ function App() {
             />
             <Route path="/signup">
               <Register
+                isSubmitting={isSubmitting}
                 buttonState={buttonState}
                 infoMessage={infoMessage}
                 onSubmit={handleSignUp}
@@ -270,6 +279,7 @@ function App() {
             </Route>
             <Route path="/signin">
               <Login
+                isSubmitting={isSubmitting}
                 buttonState={buttonState}
                 infoMessage={infoMessage}
                 onSubmit={handleSignIn}
