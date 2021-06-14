@@ -59,10 +59,10 @@ function SavedMovies(props) {
   return (
     <>
       <SearchForm
-        searchKey={searchKey}
         checkBoxState={shortFilmsOnly}
         onCheck={handleShortFilmsOnly}
         onSubmit={handleSearchQuery}
+        onlySaved
       />
       <MoviesCardList
         isLoading={isLoading}

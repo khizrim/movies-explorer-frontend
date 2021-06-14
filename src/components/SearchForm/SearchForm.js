@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -6,17 +7,20 @@ import useForm from '../../hooks/useForm';
 import './SearchForm.css';
 
 function SearchForm(props) {
-  const { checkBoxState, onCheck, onSubmit } = props;
+  const { checkBoxState, onCheck, onSubmit, onlySaved } = props;
 
   SearchForm.propTypes = {
     checkBoxState: PropTypes.bool.isRequired,
     onCheck: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
+    onlySaved: PropTypes.bool.isRequired,
   };
 
   const {
     handleChange,
     validateForm,
+    setValues,
+    setFormValidity,
     reset,
     values,
     errors,
@@ -27,6 +31,19 @@ function SearchForm(props) {
     e.preventDefault();
     onSubmit(values.key, reset);
   }
+
+  React.useEffect(() => {
+    if(!onlySaved) {
+      const searchKey = localStorage.getItem('searchKey');
+
+      if(searchKey) {
+        setValues({
+          key: searchKey
+        });
+        setFormValidity(true);
+      }
+    }
+  }, [onlySaved, setFormValidity])
 
   return (
     <>

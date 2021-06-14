@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -42,6 +43,7 @@ function Movies(props) {
   React.useEffect(() => {
     getMovies();
     setShortFilmsOnly(localStorage.getItem('shortFilmsOnly') === 'true');
+    setSearchKey(localStorage.getItem('searchKey'));
   }, []);
 
   React.useEffect(() => {
@@ -60,6 +62,7 @@ function Movies(props) {
         checkBoxState={shortFilmsOnly}
         onCheck={handleShortFilmsOnly}
         onSubmit={handleSearchQuery}
+        onlySaved={false}
       />
       <MoviesCardList
         isLoading={isLoading}
