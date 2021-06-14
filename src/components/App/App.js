@@ -55,7 +55,7 @@ function App() {
       } catch (err) {
         setIsError(true);
         setMoviesList([]);
-        console.log(err);
+        console.error(err);
       } finally {
         setIsLoading(false);
       }
@@ -74,15 +74,15 @@ function App() {
       } catch (err) {
         setIsError(true);
         setSavedMoviesList([]);
-        console.log(err);
+        console.error(err);
       } finally {
         setIsLoading(false);
       }
     })();
   };
 
-  function handleLoading(isLoading, text) {
-    if (isLoading) {
+  function handleLoading(loading, text) {
+    if (loading) {
       setButtonState(text);
     } else {
       setButtonState('');
@@ -94,7 +94,7 @@ function App() {
       const movie = await mainApi.saveMovie(movieData);
       setSavedMoviesList([movie.data, ...savedMoviesList]);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -106,7 +106,7 @@ function App() {
         savedMoviesList.filter((movie) => movie._id !== movieId),
       );
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -184,7 +184,7 @@ function App() {
       localStorage.clear();
       history.push('/');
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
@@ -206,7 +206,7 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    if(isLoggedIn) {
+    if (isLoggedIn) {
       getSavedMovies();
     }
   }, [isLoggedIn]);
