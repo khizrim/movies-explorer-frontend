@@ -55,30 +55,59 @@ function MoviesCardList(props) {
 
   const listToShow = onlySaved ? savedMoviesList : moviesList;
 
-  const getInitialMoviesMarkup = () => listToShow.slice(0, moviesToShow).map((movie) => {
-    const savedCard = savedMoviesList.find((m) => m.movieId === movie.id);
-    const savedCardId = savedCard ? savedCard._id : null;
-    return (
-      <MoviesCard
-        key={movie.id}
-        movie={{ ...movie, _id: savedCardId }}
-        handleMovieLikeState={handleMovieLikeState}
-        onMovieSave={onMovieSave}
-        onMovieDelete={onMovieDelete}
-      />
-    );
-  });
+  const getListMarkup = () => (isNothingFound || isError
+    ? (
+      <>
+        <p className={`movies-cards__message ${
+          isError && 'movies-cards__message_error'}`}
+        >
+          {isError
+            ? `Во время запроса произошла ошибка.
+              Возможно, проблема с соединением или сервер недоступен.
+              Подождите немного и попробуйте ещё раз.`
+            : 'Ничего не найдено'}
+        </p>
+      </>
+    ) : (
+      <>
+        <div className="movies-cards__list">
+          {onlySaved
+            ? listToShow.slice(0, moviesToShow).map((movie) => {
+              const savedCard = savedMoviesList.find((m) => m.movieId === movie.movieId);
+              const savedCardId = savedCard ? savedCard._id : null;
 
-  const getSavedMoviesMarkup = () => listToShow
-    .slice(0, moviesToShow)
-    .map((movie) => (
-      <MoviesCard
-        key={movie._id}
-        movie={movie}
-        handleMovieLikeState={handleMovieLikeState}
-        onMovieSave={onMovieSave}
-        onMovieDelete={onMovieDelete}
-      />
+              return (
+                <MoviesCard
+                  key={movie._id}
+                  movie={{ ...movie, _id: savedCardId }}
+                  handleMovieLikeState={handleMovieLikeState}
+                  onMovieSave={onMovieSave}
+                  onMovieDelete={onMovieDelete}
+                />
+              );
+            })
+            : listToShow
+              .slice(0, moviesToShow)
+              .map((movie) => (
+                <MoviesCard
+                  key={movie.id}
+                  movie={movie}
+                  handleMovieLikeState={handleMovieLikeState}
+                  onMovieSave={onMovieSave}
+                  onMovieDelete={onMovieDelete}
+                />
+              ))}
+        </div>
+        <button
+          className={`movies-cards__more ${
+            isButtonHidden ? 'movies-cards__more_hidden' : ''
+          }`}
+          type="button"
+          onClick={handleShowMoreMovies}
+        >
+          Ещё
+        </button>
+      </>
     ));
 
   React.useEffect(() => {
@@ -105,36 +134,11 @@ function MoviesCardList(props) {
 
   return (
     <section className="movies-cards">
-      {isLoading ? (
-        <Preloader />
-      ) : isNothingFound || isError ? (
-        <p
-          className={`movies-cards__message ${
-            isError && 'movies-cards__message_error'
-          }`}
-        >
-          {isError
-            ? `Во время запроса произошла ошибка.
-              Возможно, проблема с соединением или сервер недоступен.
-              Подождите немного и попробуйте ещё раз.`
-            : 'Ничего не найдено'}
-        </p>
-      ) : (
-        <>
-          <div className="movies-cards__list">
-            {onlySaved ? getSavedMoviesMarkup() : getInitialMoviesMarkup()}
-          </div>
-          <button
-            className={`movies-cards__more ${
-              isButtonHidden ? 'movies-cards__more_hidden' : ''
-            }`}
-            type="button"
-            onClick={handleShowMoreMovies}
-          >
-            Ещё
-          </button>
-        </>
-      )}
+      {isLoading
+        ? <Preloader />
+        : (
+          getListMarkup()
+        )}
     </section>
   );
 }
