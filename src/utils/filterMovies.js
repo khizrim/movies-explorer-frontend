@@ -1,3 +1,5 @@
+import { SHORT_MOVIE_DURATION } from './constants';
+
 function filterMovies(movies, key, onlyShort) {
   const res = movies.filter((movie) => {
     const { nameRU, nameEN } = movie;
@@ -13,7 +15,7 @@ function filterMovies(movies, key, onlyShort) {
   });
 
   return onlyShort
-    ? res.filter((movie) => movie.duration <= 40)
+    ? res.filter((movie) => movie.duration <= SHORT_MOVIE_DURATION)
     : res;
 }
 
