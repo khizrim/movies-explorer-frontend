@@ -87,7 +87,6 @@ function SearchForm(props) {
             className="search-form__filter-checkbox"
             checked={checkBoxState}
             onChange={onCheck}
-            disabled={!formValidity}
           />
         </label>
       </div>

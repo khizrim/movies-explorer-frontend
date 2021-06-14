@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router';
@@ -12,17 +13,15 @@ import './MoviesCard.css';
 
 function MoviesCard(props) {
   const {
-    movie, handleMovieLikeState, onMovieSave, onMovieDelete,
+    movie, onMovieSave, onMovieDelete, isSaved,
   } = props;
 
   MoviesCard.propTypes = {
     movie: PropTypes.objectOf(PropTypes.any).isRequired,
-    handleMovieLikeState: PropTypes.func.isRequired,
     onMovieSave: PropTypes.func.isRequired,
     onMovieDelete: PropTypes.func.isRequired,
+    isSaved: PropTypes.bool.isRequired,
   };
-
-  const [isSaved, setIsSaved] = React.useState(handleMovieLikeState(movie));
 
   const movieImage = movie.image.url
     ? `${MOVIES_URL}${movie.image.url}`
@@ -30,17 +29,11 @@ function MoviesCard(props) {
 
   function handleMovieSave() {
     onMovieSave(movie);
-    setIsSaved(!isSaved);
   }
 
   function handleMovieDelete() {
     onMovieDelete(movie._id);
-    setIsSaved(!isSaved);
   }
-
-  React.useEffect(() => {
-    handleMovieLikeState(movie);
-  }, []);
 
   return (
     <article className="movies-card">

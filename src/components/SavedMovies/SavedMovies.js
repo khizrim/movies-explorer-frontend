@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -28,33 +29,37 @@ function SavedMovies(props) {
 
   const handleShortFilmsOnly = (e) => {
     setShortFilmsOnly(e.target.checked);
-    localStorage.setItem('shortFilmsOnly', e.target.checked);
   };
 
   const handleSearchQuery = (key) => {
     setSearchKey(key);
-    localStorage.setItem('searchKey', key);
   };
 
   React.useEffect(() => {
-    setShortFilmsOnly(localStorage.getItem('shortFilmsOnly') === 'true');
-  }, [shownMovies]);
+    let filteredMovies;
 
-  React.useEffect(() => {
     if (searchKey) {
-      const filteredMovies = filterMovies(
+      filteredMovies = filterMovies(
         savedMovies,
         searchKey,
         shortFilmsOnly,
       );
 
-      !filteredMovies.length
-        ? setIsNothingFound(true)
-        : setIsNothingFound(false);
+      setShownMovies(filteredMovies);
+    } else {
+      filteredMovies = filterMovies(
+        savedMovies,
+        null,
+        shortFilmsOnly,
+      );
 
       setShownMovies(filteredMovies);
     }
-  }, [searchKey, shortFilmsOnly]);
+
+    !filteredMovies.length
+      ? setIsNothingFound(true)
+      : setIsNothingFound(false);
+  }, [searchKey, shortFilmsOnly, savedMovies]);
 
   return (
     <>

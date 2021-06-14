@@ -44,7 +44,7 @@ function Movies(props) {
     getMovies();
     setShortFilmsOnly(localStorage.getItem('shortFilmsOnly') === 'true');
     setSearchKey(localStorage.getItem('searchKey'));
-  }, []);
+  }, [searchKey, shortFilmsOnly]);
 
   React.useEffect(() => {
     if (searchKey) {

@@ -110,26 +110,6 @@ function App() {
     }
   };
 
-  const handleSignUp = async (name, email, password) => {
-    try {
-      handleLoading(true, 'Регистрация...');
-      await mainApi.signUpUser({
-        name,
-        email,
-        password,
-      });
-    } catch ({ status }) {
-      setInfoMessage({
-        ...infoMessage,
-        isShown: true,
-        code: status,
-        type: 'signup',
-      });
-    } finally {
-      handleLoading(false);
-    }
-  };
-
   const handleSignIn = async (email, password) => {
     try {
       handleLoading(true, 'Вход...');
@@ -148,6 +128,27 @@ function App() {
         isShown: true,
         code: status,
         type: 'signin',
+      });
+    } finally {
+      handleLoading(false);
+    }
+  };
+
+  const handleSignUp = async (name, email, password) => {
+    try {
+      handleLoading(true, 'Регистрация...');
+      await mainApi.signUpUser({
+        name,
+        email,
+        password,
+      });
+      handleSignIn(email, password);
+    } catch ({ status }) {
+      setInfoMessage({
+        ...infoMessage,
+        isShown: true,
+        code: status,
+        type: 'signup',
       });
     } finally {
       handleLoading(false);

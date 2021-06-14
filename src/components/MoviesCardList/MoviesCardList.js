@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -50,10 +51,8 @@ function MoviesCardList(props) {
   };
 
   const handleMovieLikeState = (movie) => savedMoviesList.some(
-    (savedMovie) => savedMovie.movieId === movie.id,
+    (savedMovie) => savedMovie._id === movie._id,
   );
-
-  const listToShow = onlySaved ? savedMoviesList : moviesList;
 
   const getListMarkup = () => (isNothingFound || isError
     ? (
@@ -71,30 +70,32 @@ function MoviesCardList(props) {
     ) : (
       <>
         <div className="movies-cards__list">
-          {onlySaved
-            ? listToShow.slice(0, moviesToShow).map((movie) => {
-              const savedCard = savedMoviesList.find((m) => m.movieId === movie.movieId);
+          {!onlySaved
+            ? moviesList.slice(0, moviesToShow).map((movie) => {
+              const savedCard = savedMoviesList.find((m) => m.movieId === movie.id);
               const savedCardId = savedCard ? savedCard._id : null;
 
               return (
                 <MoviesCard
-                  key={movie._id}
+                  key={movie.id}
                   movie={{ ...movie, _id: savedCardId }}
                   handleMovieLikeState={handleMovieLikeState}
                   onMovieSave={onMovieSave}
                   onMovieDelete={onMovieDelete}
+                  isSaved={!!savedCard}
                 />
               );
             })
-            : listToShow
+            : moviesList
               .slice(0, moviesToShow)
               .map((movie) => (
                 <MoviesCard
-                  key={movie.id}
+                  key={movie._id}
                   movie={movie}
                   handleMovieLikeState={handleMovieLikeState}
                   onMovieSave={onMovieSave}
                   onMovieDelete={onMovieDelete}
+                  isSaved
                 />
               ))}
         </div>
@@ -111,10 +112,10 @@ function MoviesCardList(props) {
     ));
 
   React.useEffect(() => {
-    const isAll = listToShow.length <= moviesToShow;
+    const isAll = moviesList.length <= moviesToShow;
 
     isAll ? setIsButtonHidden(true) : setIsButtonHidden(false);
-  }, [listToShow, moviesToShow]);
+  }, [moviesList, moviesToShow]);
 
   React.useEffect(() => {
     screenWidth;
