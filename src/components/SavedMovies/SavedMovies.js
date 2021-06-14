@@ -48,7 +48,7 @@ function SavedMovies(props) {
         shortFilmsOnly,
       );
 
-      filteredMovies.length === 0
+      !filteredMovies.length
         ? setIsNothingFound(true)
         : setIsNothingFound(false);
 

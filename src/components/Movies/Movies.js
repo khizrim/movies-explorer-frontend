@@ -48,9 +48,15 @@ function Movies(props) {
 
   React.useEffect(() => {
     if (searchKey) {
-      const filteredMovies = filterMovies(movies, searchKey, shortFilmsOnly);
+      const filteredMovies = filterMovies(
+        movies,
+        searchKey,
+        shortFilmsOnly,
+      );
 
-      !filteredMovies.length ? setIsNothingFound(true) : setIsNothingFound(false);
+      !filteredMovies.length
+        ? setIsNothingFound(true)
+        : setIsNothingFound(false);
 
       setShownMovies(filteredMovies);
     }
