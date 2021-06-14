@@ -26,9 +26,7 @@ function MoviesCard(props) {
 
   const movieImage = movie.image.url
     ? `${MOVIES_URL}${movie.image.url}`
-    : movie.image
-      ? movie.image
-      : noCover;
+    : movie.image;
 
   function handleMovieSave() {
     onMovieSave(movie);
@@ -78,7 +76,7 @@ function MoviesCard(props) {
         target="_blank"
       >
         <img
-          src={movieImage}
+          src={movieImage || noCover}
           className="movies-card__cover-image"
           alt={movie.nameRU}
         />
