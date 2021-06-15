@@ -9,6 +9,7 @@
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
+    "csscomb": "^4.3.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -19,7 +20,7 @@
     "web-vitals": "^1.1.2"
   },
   "devDependencies": {
-    "csscomb": "^4.3.0",
+    "cross-env": "^7.0.3",
     "eslint": "^7.27.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.23.4",
@@ -28,8 +29,9 @@
     "eslint-plugin-react-hooks": "^4.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "cross-env PORT=3001 react-scripts start",
     "build": "react-scripts build",
+    "deploy": "npm run build && scp -r ./build/* khizrim@84.201.150.202:/home/khizrim/frontend",
     "test": "react-scripts test",
     "csscomb": "./node_modules/.bin/csscomb src/components",
     "eject": "react-scripts eject",

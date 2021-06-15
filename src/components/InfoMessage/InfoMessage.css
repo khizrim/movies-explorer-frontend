@@ -1,0 +1,15 @@
+.message {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}
+
+.message__text {
+  color: #3456f3;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.message__text_error {
+  color: #ee3465;
+}

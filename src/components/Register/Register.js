@@ -1,25 +1,46 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import useForm from '../../hooks/useForm';
 import FormPage from '../FormPage/FormPage';
 
 import './Register.css';
 
-function Register() {
+function Register(props) {
   const {
-    handleChange, validateForm, errors, formValidity,
+    isSubmitting, buttonState, infoMessage, onSubmit,
+  } = props;
+
+  Register.propTypes = {
+    isSubmitting: PropTypes.bool.isRequired,
+    buttonState: PropTypes.string.isRequired,
+    infoMessage: PropTypes.objectOf(PropTypes.any).isRequired,
+    onSubmit: PropTypes.func.isRequired,
+  };
+
+  const {
+    handleChange, validateForm, values, errors, formValidity,
   } = useForm();
+
+  const { name, email, password } = values;
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    onSubmit(name, email, password);
+  }
 
   return (
     <div className="register">
       <FormPage
         title="Добро пожаловать!"
-        buttonText="Зарегистрироваться"
+        buttonText={buttonState || 'Зарегистрироваться'}
         captionText="Уже зарегистрированы?"
         captionLinkText="Войти"
         captionLinkUrl="/signin"
         isValid={formValidity}
         validate={validateForm}
+        onSubmit={handleSubmit}
+        infoMessage={infoMessage}
       >
         <>
           <label htmlFor="name" className="form-page__label">
@@ -33,15 +54,17 @@ function Register() {
                 errors.name ? 'form-page__input_type_error' : ''
               }`}
               placeholder="Жак-Ив Кусто"
+              pattern="^[A-Za-zА-Яа-яЁё /s -]+$"
               autoComplete="name"
               minLength="2"
+              maxLength="30"
+              disabled={isSubmitting}
               required
             />
             {errors.name && (
               <span className="form-page__input-error">{errors.name}</span>
             )}
           </label>
-
           <label htmlFor="email" className="form-page__label">
             E-mail
             <input
@@ -56,13 +79,13 @@ function Register() {
               pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
               autoComplete="email"
               minLength="2"
+              disabled={isSubmitting}
               required
             />
             {errors.email && (
               <span className="form-page__input-error">{errors.email}</span>
             )}
           </label>
-
           <label htmlFor="password" className="form-page__label">
             Пароль
             <input
@@ -76,6 +99,7 @@ function Register() {
               autoComplete="new-password"
               placeholder="&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;"
               minLength="8"
+              disabled={isSubmitting}
               required
             />
             {errors.password && (

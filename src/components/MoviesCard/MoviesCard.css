@@ -15,12 +15,16 @@
 .movies-card__info {
   display: flex;
   flex-direction: column;
+  max-width: 85%;
 
   gap: 9px;
 }
 
 .movies-card__title {
+  overflow: hidden;
   margin: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-weight: 500;
   font-size: 15px;
   line-height: 18px;
@@ -34,8 +38,23 @@
   line-height: 13px;
 }
 
-.movies-card__cover-image {
+.movies-card__cover-link {
+  overflow: hidden;
   width: 100%;
+  height: 100%;
+  cursor: pointer;
+  transition: opacity .2s;
+}
+
+.movies-card__cover-link:hover {
+  opacity: .6;
+}
+
+.movies-card__cover-image {
+  min-height: 100%;
+  width: 100%;
+
+  object-fit: cover;
 }
 
 .movies-card__save-button {
@@ -69,4 +88,3 @@
 .movies-card__delete-button:hover {
   opacity: .6;
 }
-
