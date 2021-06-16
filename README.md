@@ -24,10 +24,11 @@ BEM
 
 ## Ссылки:
 https://movies-explorer.khizrim.ru
+
 https://api.movies-explorer.khizrim.ru
 
 ### IP-адрес сервера
-https://178.154.212.251;
+https://178.154.212.251
 
 ## Установка и запуск
 `npm i` - установка зависимостей
